@@ -1,33 +1,26 @@
 package com.sakibssamad.tab_demo.adapter
 
-import androidx.annotation.Nullable
+
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class ViewPagerAdapter : FragmentPagerAdapter {
+class ViewPagerAdapter(fragmentActivity: FragmentActivity, fragmentList: ArrayList<Fragment>) :
+    FragmentStateAdapter(fragmentActivity){
 
-    private final var fragmentList1: ArrayList<Fragment> = ArrayList()
-    private final var fragmentTitleList1: ArrayList<String> = ArrayList()
+      var fragmentList1: ArrayList<Fragment> = ArrayList()
 
-    public constructor(supportFragmentManager: FragmentManager)
-            : super(supportFragmentManager)
-
-    override fun getItem(position: Int): Fragment {
-        return fragmentList1.get(position)
+    init {
+        fragmentList1 = fragmentList
     }
-
-    @Nullable
-    override fun getPageTitle(position: Int): CharSequence {
-        return fragmentTitleList1.get(position)
-    }
-
-    override fun getCount(): Int {
+    override fun getItemCount(): Int {
         return fragmentList1.size
     }
 
-    fun addFragment(fragment: Fragment, title: String) {
-        fragmentList1.add(fragment)
-        fragmentTitleList1.add(title)
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            position -> fragmentList1[position]
+            else -> fragmentList1[0]
+        }
     }
 }
